@@ -1,5 +1,50 @@
 
-# API Documentation
+# REST API Development Guidelines with Best Practices and Versioning
+
+## Layered Architecture
+
+To ensure consistency, scalability, and maintainability, we follow a structured layered approach for REST API development:
+
+**Flow:**  
+`Controller → AdapterService → BusinessService [→ IntegrationService (if required)] → DaoService → Database`
+
+### Layer Responsibilities
+
+- **Controller**  
+  Handles incoming HTTP requests and delegates processing to the `AdapterService`.  
+  Responsible for API versioning (`/v1/`, `/v2/`, etc.).
+
+- **AdapterService**  
+  Converts incoming **DTO requests** from the controller into **service requests** that are understood by the business layer.  
+  Helps maintain the same core business logic across multiple API versions.
+
+- **BusinessService**  
+  Contains core business logic.  
+  Should be independent of DTOs and controller-specific logic.  
+  Can delegate to **IntegrationService** if external service communication is required.
+
+- **IntegrationService (optional)**  
+  Handles interactions with third-party systems, external APIs, or other microservices.  
+  Keeps external integration logic isolated from core business logic.
+
+- **DaoService**  
+  Responsible for persistence logic and database interactions.  
+  Abstracts the data access layer.
+
+- **Database**  
+  The underlying data store.
+
+### Key Benefits
+
+- **Consistency** – Same business logic can be reused across multiple versions of the API.  
+- **Separation of Concerns** – Each layer has a well-defined responsibility.  
+- **Maintainability** – Changes in one layer (e.g., DTO changes in Controller) do not affect others.  
+- **Extensibility** – Easy to add new versions or integrations without duplicating logic.  
+
+---
+
+
+# API Documentation for new task
 
 ## **Endpoint**
 
